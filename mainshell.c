@@ -2,20 +2,19 @@
 
 /**
  * main - main shell function
- * argc: arguments count.
- * argv: arguments.
- * env: a NULL terminated array of strings.
+ * @argc: arguments count.
+ * @argv: arguments.
+ * @env: a NULL terminated array of strings.
  *
  * Return: return 0 on success.
  */
 
-int main(__attribute__((unused)) int argc, __attribute__ ((unused)) char **argv, char **env)
+int main(int argc, char **argv, char **env)
 {
-	char *buffer = NULL;
+	(void)argc;
+	(void)argv;
+	char *buffer = NULL, *token, *cmd;
 	size_t buffer_size = 0;
-	int char_num;
-	char *token;
-	char *cmd;
 	int status, i = 0;
 	char **array;
 	pid_t pid;
@@ -23,31 +22,20 @@ int main(__attribute__((unused)) int argc, __attribute__ ((unused)) char **argv,
 	while (1)
 	{
 		printf("%s", PROMPT);
-		char_num = getline(&buffer, &buffer_size, stdin);
+		buffer = read_line();
 		array = malloc(sizeof(char *) * 1024);
 		token = strtok(buffer, " \t\n");
-		if (char_num == -1)
-		{
-			write(1, "\n", 1);
-			free(array);
-			exit(1);
-		}
-
 		if (buffer == NULL)
 		{
 			if (isatty(STDIN_FILENO))
 				write(STDOUT_FILENO, "\n", 1);
 			return (status);
 		}
-
-
 		array = split_string(buffer, " \t\n");
-
 		if (_strcmp(array[0], "exit") == 0)
 		{
 			exit(0);
 		}
-
 		while (token)
 		{
 			array[i] = token;
@@ -55,8 +43,6 @@ int main(__attribute__((unused)) int argc, __attribute__ ((unused)) char **argv,
 			i++;
 		}
 		array[i] = NULL;
-
-
 		pid = fork();
 		if (pid == 0)
 		{
@@ -80,7 +66,6 @@ int main(__attribute__((unused)) int argc, __attribute__ ((unused)) char **argv,
 			wait(&status);
 		}
 	}
-
 	return (0);
 }
 

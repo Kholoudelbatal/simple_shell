@@ -10,13 +10,12 @@
  */
 int _setenv(const char *name, const char *value, int overwrite)
 {
-	extern char **environ;
 	int i = 0, len = 0;
 	char *new_var;
 
 	if (!name || !value)
 		return (-1);
-	while(environ[i])
+	while (environ[i])
 	{
 		len = _strlen(name);
 		if (strncmp(environ[i], name, len) == 0)
@@ -53,11 +52,10 @@ int _setenv(const char *name, const char *value, int overwrite)
  */
 char *_getenv(const char *env_var)
 {
-	extern char **environ;
 	int i = 0;
 	char *key;
 
-	while(environ[i])
+	while (environ[i])
 	{
 		key = strtok(environ[i], "=");
 		if (_strcmp(key, env_var) == 0)

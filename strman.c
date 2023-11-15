@@ -2,10 +2,10 @@
 
 /**
  * _strcmp - compare two strings.
- * s1: first string
- * s2: second string
+ * @s1: first string
+ * @s2: second string
  *
- * return: 1 if true, 0 if false.
+ * Return: 1 if true, 0 if false.
  */
 int _strcmp(const char *s1, const char *s2)
 {
@@ -25,7 +25,7 @@ int _strcmp(const char *s1, const char *s2)
 		s2++;
 		i = s1[i] - s2[i];
 	}
-	
+
 	return (i);
 }
 
@@ -105,7 +105,7 @@ char *_strdup(const char *s)
 {
 	int i, len;
 	char *dest;
-	
+
 	len = _strlen(s);
 	dest = malloc(sizeof(char *) * (len + 1));
 
@@ -127,6 +127,6 @@ char *_strdup(const char *s)
 	}
 	dest[i] = '\0';
 	}
-	
+
 	return (dest);
 }
