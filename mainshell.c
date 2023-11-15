@@ -2,29 +2,30 @@
 
 /**
  * main - main shell function
- * @argc: arguments count.
- * @argv: arguments.
- * @env: a NULL terminated array of strings.
- *
  * Return: return 0 on success.
  */
 
-int main(int argc, char **argv, char **env)
+int main()
 {
-	(void)argc;
-	(void)argv;
-	char *buffer = NULL, *token, *cmd;
+	char *buffer = NULL;
+	char *token, *cmd;
 	size_t buffer_size = 0;
 	int status, i = 0;
+	int char_num;
 	char **array;
 	pid_t pid;
 
 	while (1)
 	{
 		printf("%s", PROMPT);
-		buffer = read_line();
+		char_num = getline(&buffer, &buffer_size, stdin);
 		array = malloc(sizeof(char *) * 1024);
 		token = strtok(buffer, " \t\n");
+		if (char_num == -1)
+                {
+                        free(array);
+                        exit(1);
+                }
 		if (buffer == NULL)
 		{
 			if (isatty(STDIN_FILENO))
@@ -49,9 +50,9 @@ int main(int argc, char **argv, char **env)
 			cmd = get_command(array[i]);
 			if (cmd)
 			{
-				execve(cmd, array, env);
+				execve(cmd, array, environ);
 			}
-			if (execve(array[0], array, env) == -1)
+			if (execve(array[0], array, environ) == -1)
 			{
 				perror("execve");
 			}

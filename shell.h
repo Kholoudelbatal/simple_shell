@@ -10,9 +10,9 @@
 #include <sys/stat.h>
 
 #define PROMPT "$ "
-#define extern char **environ
+extern char **environ;
 
-int main(int argc, char **argv, char **env);
+int main();
 char **split_string(char *buffer, char *del);
 
 /*strman*/
